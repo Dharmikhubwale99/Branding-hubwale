@@ -12,7 +12,7 @@
         <x-form.select name="user" label="Select Customer" :options="$data['users']" wireModel="user" required
             placeholder="Select Customer" />
 
-        <x-form.input name="video" label="Upload Video" type="file" wireModel="video" required
+        <x-form.input name="video" label="Upload Video/Image" type="file" wireModel="video" required
             inputClass="cursor-pointer" />
 
         <div wire:loading wire:target="video" class="flex flex-row text-blue-600 text-sm mt-2 flex items-center gap-2">

@@ -34,7 +34,7 @@ class Video extends Component
     {
         $this->validate([
             'user' => 'required|exists:users,id',
-            'video' => 'required|file|mimes:mp4,mov,avi,flv,wmv',
+            'video' => 'required|file|mimes:mp4,mov,avi,flv,wmv,jpg,jpeg,png,jpe,psd,', // 20MB max
             'description' => 'nullable|string|max:1000',
         ]);
 
@@ -52,6 +52,6 @@ class Video extends Component
         ]);
 
         session()->flash('message', 'Video uploaded successfully.');
-        return redirect()->route('admin.video');
+        return redirect()->route('admin.video.index');
     }
 }

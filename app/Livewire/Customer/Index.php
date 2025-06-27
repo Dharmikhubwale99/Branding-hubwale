@@ -13,10 +13,14 @@ class Index extends Component
 
     public $editing = false;
     public $editId = null;
-    public $editDescription = '';
+    public $editDescription;
 
     public $confirmingDone = false;
     public $doneId = null;
+
+    public $showImage = false;
+    public $imageUrl;
+
 
     #[Layout('components.layouts.customer.app')]
     public function render()
@@ -31,8 +35,15 @@ class Index extends Component
     public function openEditModal($id)
     {
         $video = Video::findOrFail($id);
+        $editVideo = VideoComment::where('video_id', $video->id)
+            ->where('user_id', Auth::id())
+            ->first();
+        if ($editVideo) {
+            $this->editDescription = $editVideo->comment;
+        } else {
+            $this->editDescription = '';
+        }
         $this->editId = $video->id;
-        $this->editDescription = $video->description;
         $this->editing = true;
     }
 
@@ -68,7 +79,7 @@ class Index extends Component
 
         $this->editing = false;
         $this->editId = null;
-        $this->editDescription = '';
+        // $this->editDescription = '';
 
         session()->flash('message', 'Video updated successfully.');
         return redirect()->route('customer.index');
@@ -99,6 +110,12 @@ class Index extends Component
 
         session()->flash('message', 'Video marked as approved.');
         return redirect()->route('customer.index');
+    }
+
+    public function viewImage($url)
+    {
+        $this->imageUrl = $url;
+        $this->showImage = true;
     }
 
 }

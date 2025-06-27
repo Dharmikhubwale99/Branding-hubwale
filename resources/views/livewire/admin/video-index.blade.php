@@ -1,4 +1,4 @@
-<div class="p-6 max-w-7xl mx-auto bg-white rounded shadow">
+<div class="p-6 max-w-8xl mx-auto bg-white rounded shadow">
     <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
         <h2 class="text-2xl font-bold">Uploaded Videos</h2>
         <x-form.button
@@ -11,7 +11,7 @@
 
     {{-- 🎯 Responsive wrapper --}}
     <div class="overflow-x-auto">
-        <table class="min-w-[1000px] w-full table-auto border border-collapse border-gray-200 text-sm">
+        <table class="w-full table-auto border border-collapse border-gray-200 text-sm">
             <thead>
                 <tr class="bg-gray-100 text-left">
                     <th class="px-4 py-2 border">#</th>
@@ -34,9 +34,19 @@
                         <td class="px-4 py-2 border">{{ $video->description }}</td>
                         <td class="px-4 py-2 border">
                             @if ($video->path)
-                                <video src="{{ asset($video->path) }}" controls controlsList="nodownload" class="w-40 h-24 rounded"></video>
+                                @php
+                                    $extension = pathinfo($video->path, PATHINFO_EXTENSION);
+                                    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                                @endphp
+
+                                @if (in_array(strtolower($extension), $imageExtensions))
+                                    <img src="{{ asset($video->path) }}" class="w-full h-24 object-cover rounded" alt="Image Preview">
+                                @else
+                                    <video src="{{ asset($video->path) }}" controls controlsList="nodownload"
+                                           class="w-full h-24 rounded"></video>
+                                @endif
                             @else
-                                <span class="text-gray-400 italic">No video</span>
+                                <span class="text-gray-400 italic">No file</span>
                             @endif
                         </td>
                         <td class="px-4 py-2 border">{{ $video->created_at->format('d M Y, h:i A') }}</td>

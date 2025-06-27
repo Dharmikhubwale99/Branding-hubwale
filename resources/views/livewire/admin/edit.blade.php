@@ -6,7 +6,7 @@
             <x-form.input label="Title" name="title" wireModel="title" readonly />
             <x-form.input label="Description" name="description" type="textarea" wireModel="description" />
 
-            <x-form.input label="Replace Video File" name="newVideo" type="file" wireModel="newVideo" inputClass="cursor-pointer"  />
+            <x-form.input label="Replace Video & Image File" name="newVideo" type="file" wireModel="newVideo" inputClass="cursor-pointer"  />
             @error('newVideo') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             <div wire:loading wire:target="newVideo" class="flex flex-row text-blue-600 text-sm mt-2 flex items-center gap-2">
                 Uploading video, please wait...
@@ -18,11 +18,22 @@
                 </svg>
             </div>
             @if ($path)
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Preview</label>
+            @php
+                $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+                $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            @endphp
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Preview</label>
+
+                @if (in_array($extension, $imageExtensions))
+                    <img src="{{ asset($path) }}" alt="Image Preview" class="w-64 h-36 object-cover rounded" />
+                @else
                     <video src="{{ asset($path) }}" controls class="w-64 h-36 rounded"></video>
-                </div>
-            @endif
+                @endif
+            </div>
+        @endif
+
 
         <div class="flex flex-row text-center  space-x-3">
             <x-form.button type="submit" title="Update" wireTarget="update" />

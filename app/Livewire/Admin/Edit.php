@@ -20,6 +20,7 @@ class Edit extends Component
     public $path;
     public $newVideo;
     public $video;
+    public $videoComment;
 
     #[Layout('components.layouts.admin.app')]
     public function render()
@@ -31,7 +32,8 @@ class Edit extends Component
     {
         $this->video = Video::findOrFail($id);
 
-        // Populate fields
+        $this->videoComment = $this->video->comments()->first();
+
         $this->videoId = $this->video->id;
         $this->title = $this->video->title;
         $this->description = $this->video->description;
@@ -43,7 +45,7 @@ class Edit extends Component
     {
 
         $this->validate([
-            'newVideo' => 'nullable|file|mimes:mp4,mov,avi,flv,wmv|max:512000', // 500 MB
+            'newVideo' => 'nullable|file|mimes:mp4,mov,avi,flv,wmv,jpg,jpeg,png,jpe,psd,',
         ]);
 
         $videoFileName = $this->newVideo->getClientOriginalName();
@@ -55,7 +57,10 @@ class Edit extends Component
 
         $this->video->update([
                 'path'   => 'storage/'.$path,
-                'status' => 'proccess',
+                'status' => 'pending',
+        ]);
+        $this->videoComment->update([
+            'comment' => '',
         ]);
 
         session()->flash('success', 'Video replaced & status set to process.');
