@@ -25,12 +25,16 @@
             placeholder="Enter 10-digit mobile number" />
 
         <div class="mb-4">
-            <x-form.select name="role" label="Role" :options="$data['roles']" wireModel="role" required
+            <x-form.select name="role" label="Role" :options="$data['roles']" wireModelLive="role" required
                 placeholder="Select Role" />
             @error('role')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
+
+        @if ($role === 'admin')
+            <x-form.checkbox-group name="permissions" :groups="$data['permissions']" wireModel="permissions" />
+        @endif
 
         <x-form.input name="password" label="Password" type="password" wireModel="password" required
             placeholder="Create a password" showToggle="true" />

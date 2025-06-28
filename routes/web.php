@@ -23,11 +23,11 @@ Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['web', 'auth', 'role:admin']], function(){
     Route::get('/', Dashboard::class)->name('dashboard');
 
-    Route::get('/create', Create::class)->name('create');
-    Route::get('/edit/{id}', Edit::class)->name('edit');
+    Route::get('/create', Create::class)->name('create')->middleware('can:customer-create');
 
-    Route::get('/video-index', VideoIndex::class)->name('video.index');
-    Route::get('/video', Video::class)->name('video');
+    Route::get('/video-index', VideoIndex::class)->name('video.index')->middleware('can:video-index');
+    Route::get('/video', Video::class)->name('video')->middleware('can:video-create');
+    Route::get('/edit/{id}', Edit::class)->name('edit')->middleware('can:video-edit');
 });
 
 Route::group(['prefix' => 'customer', 'as' => 'customer.', 'middleware' => ['web', 'auth', 'role:customer']], function(){

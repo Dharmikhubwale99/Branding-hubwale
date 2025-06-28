@@ -8,22 +8,29 @@
             </div>
 
             <div class="hidden md:flex space-x-8 items-center">
-                    <a href="{{ route('admin.create') }}" class="text-black  hover:text-blue-600 font-medium transition-colors duration-200">
+                @can('customer-create')
+                    <a href="{{ route('admin.create') }}"
+                        class="text-black  hover:text-blue-600 font-medium transition-colors duration-200">
                         Coustomers
                     </a>
-
-                    <a href="{{ route('admin.video.index') }}" class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
+                @endcan
+                @can('video-index')
+                    <a href="{{ route('admin.video.index') }}"
+                        class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200">
                         Video Upload
                     </a>
+                @endcan
             </div>
 
             <div class="flex items-center space-x-4">
-                <a href="#" class="hidden md:block text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <a href="#"
+                    class="hidden md:block text-gray-600 hover:text-blue-600 transition-colors duration-200">
                     <i class="fi fi-rr-sign-out-alt text-xl"></i>
                 </a>
 
                 <div class="relative">
-                    <button @click="profileMenuOpen = !profileMenuOpen" class="flex items-center space-x-2 focus:outline-none">
+                    <button @click="profileMenuOpen = !profileMenuOpen"
+                        class="flex items-center space-x-2 focus:outline-none">
                         <img src="{{ asset('image/Admin.png') }}" alt="Company Profile"
                             class="w-10 h-10 rounded-full object-cover border-2 border-gray-300 hover:border-blue-500 transition-colors duration-200" />
                     </button>
@@ -42,12 +49,19 @@
                         </div>
 
                         <div class="block md:hidden ">
-                            <a href="{{ route('admin.create') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Coustomers</a>
-                            <a href="{{ route('admin.video.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Video Upload</a>
+                            @can('customer-create')
+                                <a href="{{ route('admin.create') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Coustomers</a>
+                            @endcan
+                            @can('video-index')
+                                <a href="{{ route('admin.video.index') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Video Upload</a>
+                            @endcan
                         </div>
 
                         <div class="py-1">
-                            <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            <a href="{{ route('logout') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
                         </div>
                     </div>
                 </div>

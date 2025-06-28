@@ -1,12 +1,10 @@
 <div class="p-6 max-w-8xl mx-auto bg-white rounded shadow">
     <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
         <h2 class="text-2xl font-bold">Uploaded Videos</h2>
-        <x-form.button
-            title="Create"
-            route="admin.video"
-            wireTarget="createVideo"
-            class="bg-blue-600 hover:bg-blue-700 text-white"
-        />
+        @can('video-create')
+            <x-form.button title="Create" route="admin.video" wireTarget="createVideo"
+                class="bg-blue-600 hover:bg-blue-700 text-white" />
+        @endcan
     </div>
 
     {{-- 🎯 Responsive wrapper --}}
@@ -40,10 +38,11 @@
                                 @endphp
 
                                 @if (in_array(strtolower($extension), $imageExtensions))
-                                    <img src="{{ asset($video->path) }}" class="w-full h-24 object-cover rounded" alt="Image Preview">
+                                    <img src="{{ asset($video->path) }}" class="w-full h-24 object-cover rounded"
+                                        alt="Image Preview">
                                 @else
                                     <video src="{{ asset($video->path) }}" controls controlsList="nodownload"
-                                           class="w-full h-24 rounded"></video>
+                                        class="w-full h-24 rounded"></video>
                                 @endif
                             @else
                                 <span class="text-gray-400 italic">No file</span>
@@ -80,12 +79,14 @@
                             </span>
                         </td>
                         <td class="px-4 py-2 border">
-                            <x-form.button title="" :route="['admin.edit', $video->id]"
-                                class="p-1 w-5 h-10 rounded flex items-center justify-center mt-3">
-                                <span class="w-5 h-1 flex items-center justify-center">
-                                    {!! file_get_contents(public_path('icon/edit.svg')) !!}
-                                </span>
-                            </x-form.button>
+                            @can('video-edit')
+                                <x-form.button title="" :route="['admin.edit', $video->id]"
+                                    class="p-1 w-5 h-10 rounded flex items-center justify-center mt-3">
+                                    <span class="w-5 h-1 flex items-center justify-center">
+                                        {!! file_get_contents(public_path('icon/edit.svg')) !!}
+                                    </span>
+                                </x-form.button>
+                            @endcan
                         </td>
                     </tr>
                 @empty

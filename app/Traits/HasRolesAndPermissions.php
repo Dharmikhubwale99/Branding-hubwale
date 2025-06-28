@@ -13,7 +13,11 @@ trait HasRolesAndPermissions
 
     public function getAllPermissions(){
         return [
+            'customer-create',
 
+            'video-index',
+            'video-create',
+            'video-edit',
         ];
     }
 
@@ -29,6 +33,11 @@ trait HasRolesAndPermissions
     public function getAdminPermissions()
     {
         return [
+            'customer-create',
+
+            'video-index',
+            'video-create',
+            'video-edit',
         ];
     }
 }
